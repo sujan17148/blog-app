@@ -2,7 +2,7 @@
 
 A full-featured, full-stack **React blog platform** with draft/publish support, live view counts, user profiles, likes system, TinyMCE integration, Redux state management, and dark mode support.
 
-> 🚀 **Live Demo:** [Coming Soon](#)
+> 🚀 **Live Demo:** [https://appwriteblogspace.netlify.app/create](#)
 
 ---
 ## 📸 Screenshots
