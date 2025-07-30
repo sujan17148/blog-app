@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+
+@custom-variant dark (&:where(.dark, .dark *));
+@theme{
+    --color-light-primary:#fff;
+    --color-light-text:#64748B;
+    --color-accent:#6B26D9;
+
+
+    --color-dark-accent:#fb923c;
+    --color-dark-primary:#020817;
+    --color-dark-text:#94A3B8;
+}
+html,body{
+    overflow-x:hidden ;
+}

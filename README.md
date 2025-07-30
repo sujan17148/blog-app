@@ -6,8 +6,9 @@ A full-featured, full-stack **React blog platform** with draft/publish support, 
 
 ---
 ## 📸 Screenshots
-![user Profile](./src/assets/image.png)
-![Create Post](./src/assets/image1.png)
+
+![user Profile](./src/assets/screenshots/image.png)
+![Create Post](./src/assets/screenshots/image1.png)
 
 ---
 
