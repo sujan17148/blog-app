@@ -1,9 +1,11 @@
 import parse from "html-react-parser";
 import Likes from "../Components/Likes";
 import databaseService from "../appwrite/databaseService";
+import { Link } from "react-router-dom";
 
 export default function LikedPostCard({ $id, title, content, image }) {
   return (
+    <Link to={`/article/${$id}`}>
     <div className="w-full p-3 bg-white dark:bg-dark-primary border border-slate-200 dark:border-slate-700 rounded-md shadow-sm flex gap-3 hover:shadow-md transition-shadow">
       
       {/* Image */}
@@ -30,5 +32,6 @@ export default function LikedPostCard({ $id, title, content, image }) {
         <Likes $id={$id} />
       </div>
     </div>
+    </Link>
   );
 }
