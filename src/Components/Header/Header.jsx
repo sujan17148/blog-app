@@ -201,7 +201,7 @@ setIsSearchBarVisible(false)
               searchBarRef.current.focus()
             }, 0);
            }} className="h-10 w-10 p-2 rounded-full hover:bg-accent"/>
-            <div className={`search-bar absolute top-10 right-2  w-66 ${isSearchBarVisible ? "":"hidden"}`}>
+            <div className={`search-bar absolute top-10 -right-4  w-66 ${isSearchBarVisible ? "":"hidden"}`}>
             <SearchBar ref={searchBarRef}/>
             </div>
   </div>
