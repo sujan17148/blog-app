@@ -14,6 +14,7 @@ export default function Signup() {
     const dispatch=useDispatch()
     const navigate=useNavigate()
     const [showPassword, setShowPassword] = useState(false);
+    const [error,setError]=useState("")
   const {
     register,
     handleSubmit,
@@ -37,19 +38,16 @@ export default function Signup() {
             await userDataService.getUser(currentUser.$id)
             userData=>mutateLikedPost(userData?.likedPost || [])
             dispatch(login(currentUser))
-            toast.success("successfully created an account")
-           }
-            setTimeout(() => {
-              reset()
+            reset()
+            setError("")
             navigate("/")
-            }, 1500);
+           }
         }else{
           dispatch(logOut())
         }
      }
      } catch (error) {
-      console.log("error hello")
-      toast.error("Error creating account")
+      setError(error.message || "Something went wrong during sign up.");
      }
   }
   return (
@@ -123,6 +121,7 @@ export default function Signup() {
         {isSubmitting ? "Submitting..." : "Sign Up"}
       </button>
 
+         {!!error && <p className="text-red-500 line-clamp-2 -mt-3 font-normal text-sm">*{error}</p>}
       <p className="text-center text-sm text-gray-600">
         Already have an account?{" "}
         <Link to="/login" className="text-accent hover:underline font-medium">

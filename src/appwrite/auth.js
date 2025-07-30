@@ -19,6 +19,7 @@ export class AuthService {
           }
     } catch (error) {
         console.log("appwrite error: creating account",error)
+        throw error;
     }
   }
   async login({email,password}){
@@ -26,6 +27,7 @@ export class AuthService {
         return await this.account.createEmailPasswordSession(email,password)
      } catch (error) {
         console.log("appwrite error: login error",error)
+        throw error;
      }
   }
   async getCurrentUser(){

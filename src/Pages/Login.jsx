@@ -6,12 +6,12 @@ import Input from "../Components/Input";
 import authService from "../appwrite/auth";
 import {login, logOut} from "../store/authSlice"
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
 import userDataService from "../appwrite/userDataService"
 import {mutateLikedPost} from "../store/userDataSlice"
 export default function Login() {
     const navigate=useNavigate()
     const dispatch =useDispatch()
+    const [error,setError]=useState("")
   const {
     register,
     handleSubmit,
@@ -30,6 +30,7 @@ export default function Login() {
                    userDataService.getUser(currentuser.$id).then(userData=>dispatch(mutateLikedPost(userData?.likedPost || [])))
                    dispatch(login(currentuser))
                     reset()
+                    setError("")
                     navigate("/")
                }else{
                 dispatch(logOut())
@@ -37,8 +38,7 @@ export default function Login() {
            })
         }
     } catch (error) {
-      toast.error("failed to login")
-      console.log("login failed")
+      setError(error.message || "Something went wrong during sign up.");
     }
   }
 
@@ -96,7 +96,9 @@ export default function Login() {
         >
           {isSubmitting ? "Logging in..." : "Login"}
         </button>
-
+ 
+        {!!error && <p className="text-red-500 line-clamp-2 -mt-3 font-normal text-sm">*{error}</p>} 
+              
         <p className="text-center text-sm text-gray-600">
           Don't have an account?{" "}
           <Link to="/signup" className="text-accent hover:underline font-medium">
