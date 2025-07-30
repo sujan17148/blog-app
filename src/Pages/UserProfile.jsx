@@ -64,7 +64,7 @@ function Posts({ userPosts }) {
   return (
     <div className="min-h-[80dvh] h-fit bg-white dark:bg-dark-primary md:shadow-[6px_6px_12px_#c5c5c5] dark:md:shadow-[6px_6px_12px_#000] rounded-xl w-full relative">
       {userPosts && userPosts.length <= 0 ? (
-        <EmptyState message="Looks like you haven't Posted yet" />
+        <div className="h-[80dvh] w-full justify-center items-center flex"><EmptyState message="Looks like you haven't Posted yet" /></div>
       ) : (
         <div className="space-y-15 p-3">
           {publishedPosts && publishedPosts.length > 0 && (
@@ -105,13 +105,11 @@ function LikedPosts({ allPosts }) {
     likedPosts.includes(post.$id)
   );
 
-  return (
-    <div className="w-full my-5 dark:text-light-text p-3 bg-white dark:bg-dark-primary md:shadow-[6px_6px_12px_#c5c5c5] dark:md:shadow-[6px_6px_12px_#000] rounded-xl">
+  return likedPostsData && likedPostsData.length>0 && <div className="w-full my-5 dark:text-light-text p-3 bg-white dark:bg-dark-primary md:shadow-[6px_6px_12px_#c5c5c5] dark:md:shadow-[6px_6px_12px_#000] rounded-xl">
       <h1 className="text-2xl dark:text-white font-medium mb-5">Liked Posts</h1>
       <div className="w-full space-y-2">
         {likedPostsData?.map(post=><LikedPostCard key={post.$id} {...post}/>)}
 
       </div>
     </div>
-  );
 }
