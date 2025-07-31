@@ -35,8 +35,8 @@ export default function Signup() {
 
           const customUserCreateResponse= await userDataService.createUser(newUserDoc)
            if(customUserCreateResponse){
-            await userDataService.getUser(currentUser.$id)
-            userData=>mutateLikedPost(userData?.likedPost || [])
+           const userData= await userDataService.getUser(currentUser.$id)
+             mutateLikedPost(userData?.likedPost || [])
             dispatch(login(currentUser))
             reset()
             setError("")
@@ -89,7 +89,7 @@ export default function Signup() {
           {...register("password", {
             required: "Password is required",
             minLength: {
-              value: 8,
+              value: 8, 
               message: "Password must be at least 8 characters",
             },
             validate: {
