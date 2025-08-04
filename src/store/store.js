@@ -8,5 +8,6 @@ export const store=configureStore({
       auth:authReducer,
       post:postReducer,
       userData:userDataReducer
-    }
+    },
+    devTools: process.env.NODE_ENV !== 'production',
 })
