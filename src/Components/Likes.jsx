@@ -4,16 +4,21 @@ import { FaRegHeart,FaHeart} from "react-icons/fa";
 import {addToLikedPost,removeFromLikedPost} from "../store/userDataSlice"
 import userDataService from "../appwrite/userDataService"
 import { updatePost } from "../store/postSlice";
+import { toast } from "react-toastify";
 export default function Likes({ $id, label = "" }) {
   const allPosts = useSelector((state) => state.post.allPosts);
   const postData = allPosts?.find((post) => post.$id === $id);
-  const currentUser=useSelector(state=>state.auth.userData)
+  const {currentUser,status}=useSelector(state=>state.auth)
   const likedPosts=useSelector(state=>state.userData.likedPosts)
   const isLiked=likedPosts.includes(postData.$id);
   const dispatch = useDispatch();
   async function increaseLikes(e) {
     e.preventDefault()
     e.stopPropagation()
+      if(!status){
+       toast.error("Please log in to like posts ❤️")
+        return;
+      }
     try {
       const payLoad = {
         ...postData,
