@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 export default function Likes({ $id, label = "" }) {
   const allPosts = useSelector((state) => state.post.allPosts);
   const postData = allPosts?.find((post) => post.$id === $id);
-  const {currentUser,status}=useSelector(state=>state.auth)
+  const {userData:currentUser,status}=useSelector(state=>state.auth)
   const likedPosts=useSelector(state=>state.userData.likedPosts)
   const isLiked=likedPosts.includes(postData.$id);
   const dispatch = useDispatch();
