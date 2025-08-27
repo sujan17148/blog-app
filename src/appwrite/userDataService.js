@@ -1,5 +1,5 @@
 import config from "../conf/conf";
-import { Client, Databases,Permission,Role } from "appwrite";
+import { Client, Databases} from "appwrite";
 
 export class UserData {
   client = new Client();
@@ -13,12 +13,7 @@ export class UserData {
   }
   async createUser({userId,email,likedPost}){
    try {
-    return await this.databases.createDocument(config.databaseId,config.userCollectionId,userId,{userId,email,likedPost},[
-        Permission.read(Role.any()),
-        Permission.update(Role.any()),
-        Permission.update(Role.user(userId)),  // the creator
-        Permission.delete(Role.user(userId)),
-      ])
+    return await this.databases.createDocument(config.databaseId,config.userCollectionId,userId,{userId,email,likedPost})
    } catch (error) {
     console.log("appwrite error user creation",error.message)
    }

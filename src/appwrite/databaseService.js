@@ -18,9 +18,6 @@ constructor() {
       try{
         return await this.databases.createDocument(config.databaseId,config.articleCollectionId,id,{title,content,image,status,userId,tags,date,author,isFeatured,views,likes},[
           Permission.read(Role.any()),
-          Permission.update(Role.any()),
-          Permission.update(Role.user(userId)),  // the creator
-          Permission.delete(Role.user(userId)),
         ])
       }catch(error){
         console.log("appwrite database createDocument error",error)
