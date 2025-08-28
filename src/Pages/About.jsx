@@ -7,11 +7,11 @@ export default function About() {
   }, []);
 
   return (
-    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-20 bg-white dark:bg-slate-900">
-      <div className="max-w-5xl mx-auto bg-white dark:bg-dark-primary rounded-2xl shadow-lg p-8 space-y-8">
-        <h1 className="text-4xl font-bold text-center" style={{ color: '#64748B' }}>About Blog Space</h1>
+    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-20  dark:bg-dark-primary">
+      <div className="max-w-5xl mx-auto bg-white  dark:bg-neutral-800 rounded-2xl shadow-lg p-8 space-y-8">
+        <h1 className="text-4xl font-bold text-center text-accent">About Blog Space</h1>
 
-        <p className="text-lg text-accent">
+        <p className="text-lg ">
           Welcome to <span className="font-semibold text-accent">Blog Space</span>, your creative writing platform where thoughts transform into stories, ideas become conversations, and writers connect with readers who truly care about authentic content.
         </p>
 
@@ -36,7 +36,7 @@ export default function About() {
 
         <div className="space-y-6">
           <h2 className="text-2xl font-semibold text-accent" >Our Vision</h2>
-          <p className="text-base text-accent">
+          <p>
             We envision a world where quality writing thrives, where authentic voices are heard, and where the art of storytelling continues to connect people across boundaries. Blog Space aims to be the go-to platform for writers who want to focus on what they do best — creating amazing content.
           </p>
         </div>

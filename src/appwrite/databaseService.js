@@ -14,9 +14,9 @@ constructor() {
         this.bucket=new Storage(this.client)
   }
       //post related services
-  async createPost({title,content,image,tags,status,userId,date,author,id,isFeatured,views,likes}){
+  async createPost({title,content,tags,status,userId,date,author,id,isFeatured,views,likes}){
       try{
-        return await this.databases.createDocument(config.databaseId,config.articleCollectionId,id,{title,content,image,status,userId,tags,date,author,isFeatured,views,likes},[
+        return await this.databases.createDocument(config.databaseId,config.articleCollectionId,id,{title,content,status,userId,tags,date,author,isFeatured,views,likes},[
           Permission.read(Role.any()),
         ])
       }catch(error){
@@ -39,9 +39,9 @@ constructor() {
         return false
     }
   }
-  async editPost(postId,{title,content,image,status,tags,userId,date,author,isFeatured,views,likes}){
+  async editPost(postId,{title,content,status,tags,userId,date,author,isFeatured,views,likes}){
         try{
-            return await this.databases.updateDocument(config.databaseId,config.articleCollectionId,postId,{title,content,image,status,tags,userId,date,author,isFeatured,views,likes})
+            return await this.databases.updateDocument(config.databaseId,config.articleCollectionId,postId,{title,content,status,tags,userId,date,author,isFeatured,views,likes})
           }catch(error){
             console.log("appwrite database updateDocument error",error)
           }

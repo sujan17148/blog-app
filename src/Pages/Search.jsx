@@ -14,12 +14,12 @@ export default function Search(){
  const[currentPage,setCurrentPage]=useState(1)
  const perPageData=10
  const lastPage=Math.ceil(filteredPost?.length/perPageData)
-    return <div className="p-5 md:px-10 dark:bg-slate-900 dark:text-white">
+    return <div className="p-5 md:px-10">
     { filteredPost && filteredPost.length>0? 
     <>
     <div className="min-h-[80dvh] mb-10">
             <h1 className="font-semibold dark:text-white text-xl mb-4 md:text-2xl">Search Result: {query}</h1>
-            <div className="grid gap-4  justify-center grid-cols-[repeat(auto-fit,minmax(280px,340px))]">
+            <div className="flex flex-col gap-2">
             {filteredPost?.slice((currentPage-1)*perPageData,currentPage*perPageData).map(post=>
                 <PostCard key={post.$id} {...post} />)}
             </div>

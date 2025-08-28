@@ -43,7 +43,7 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-[100vh] flex justify-center items-center bg-white dark:bg-slate-900 px-4">
+    <div className="min-h-[100vh] flex justify-center items-center bg-primary dark:bg-neutral-700 px-4">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white dark:bg-dark-primary w-full max-w-md p-8 rounded-lg shadow-lg flex flex-col gap-6"

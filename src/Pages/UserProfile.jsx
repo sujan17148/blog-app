@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import PostCard from "../Components/PostCard";
-import LikedPostCard from "../Components/LikedPostCard";
 export default function UserProfile() {
   const currentUser = useSelector((state) => state.auth.userData);
   const allPosts = useSelector((state) => state.post.allPosts);
@@ -32,7 +31,7 @@ function UserProfileCard({ currentUser, userPosts }) {
     (post) => post.status.toLowerCase() == "published"
   )?.length;
   return (
-    <div className="w-full p-5  max-w-[400px] h-fit font-medium text-lg bg-white dark:bg-dark-primary shadow-[6px_6px_12px_#c5c5c5] dark:text-light-text dark:shadow-[6px_6px_12px_#000] rounded-xl ">
+    <div className="w-full p-5  h-fit font-medium text-lg bg-white dark:bg-dark-primary shadow-[6px_6px_12px_#c5c5c5] dark:text-light-text dark:shadow-[6px_6px_12px_#000] rounded-xl ">
       <RxAvatar className="h-20 w-20  text-accent rounded-full" />
       <div className="px-3">
         <p className="name capitalize">{currentUser.name}</p>
@@ -107,9 +106,8 @@ function LikedPosts({ allPosts }) {
 
   return likedPostsData && likedPostsData.length>0 && <div className="w-full my-5 dark:text-light-text p-3 bg-white dark:bg-dark-primary md:shadow-[6px_6px_12px_#c5c5c5] dark:md:shadow-[6px_6px_12px_#000] rounded-xl">
       <h1 className="text-2xl dark:text-white font-medium mb-5">Liked Posts</h1>
-      <div className="w-full space-y-2">
-        {likedPostsData?.map(post=><LikedPostCard key={post.$id} {...post}/>)}
-
+      <div className="w-full flex flex-col gap-2">
+        {likedPostsData?.map(post=><PostCard key={post.$id} {...post}/>)}
       </div>
     </div>
 }

@@ -3,25 +3,25 @@ import { FaTwitter, FaGithub, FaLinkedin, FaEnvelope, FaHeart } from 'react-icon
 
 function Footer(){
   return (
-    <footer className="bg-white dark:bg-dark-primary border-t border-[64718b20]" >
+    <footer className="footer border-t border-secondary text-secondary bg-primary dark:bg-dark-primary" >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-1">
-            <h3 className="text-2xl font-bold mb-4 text-light-text">Blog Space</h3>
-            <p className="mb-6 leading-relaxed text-light-text">
+            <h3 className="text-2xl font-bold mb-4">Blog Space</h3>
+            <p className="mb-6 leading-relaxed ">
               Your creative writing platform. Share your thoughts, connect with readers, and build your audience.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-light-text hover:text-accent">
+              <a href="#" className=" hover:text-accent">
                 <FaTwitter className="w-5 h-5" />
               </a>
-              <a href="#" className="text-light-text hover:text-accent">
+              <a href="#" className=" hover:text-accent">
                 <FaGithub className="w-5 h-5" />
               </a>
-              <a href="#" className="text-light-text hover:text-accent">
+              <a href="#" className=" hover:text-accent">
                 <FaLinkedin className="w-5 h-5" />
               </a>
-              <a href="#" className="text-light-text hover:text-accent">
+              <a href="#" className=" hover:text-accent">
                 <FaEnvelope className="w-5 h-5" />
               </a>
             </div>
@@ -29,30 +29,30 @@ function Footer(){
           <div>
             <h4 className="text-lg font-semibold mb-4 text-light-text">Product</h4>
             <ul className="space-y-3">
-              <li><a href="#" className="text-[#64748b] hover:text-accent">Features</a></li>
-              <li><a href="#" className="text-[#64748b] hover:text-accent">Pricing</a></li>
-              <li><a href="#" className="text-[#64748b] hover:text-accent">Templates</a></li>
-              <li><a href="#" className="text-[#64748b] hover:text-accent">Analytics</a></li>
+              <li><a href="#" className=" hover:text-accent">Features</a></li>
+              <li><a href="#" className=" hover:text-accent">Pricing</a></li>
+              <li><a href="#" className=" hover:text-accent">Templates</a></li>
+              <li><a href="#" className=" hover:text-accent">Analytics</a></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-lg font-semibold mb-4 text-light-text" >Resources</h4>
             <ul className="space-y-3">
-              <li><a href="#" className="text-light-text hover:text-accent">Blog</a></li>
-              <li><a href="#" className="text-light-text hover:text-accent">Help Center</a></li>
-              <li><a href="#" className="text-light-text hover:text-accent">Community</a></li>
-              <li><a href="#" className="text-light-text hover:text-accent">Writing Guide</a></li>
+              <li><a href="#" className="hover:text-accent">Blog</a></li>
+              <li><a href="#" className="hover:text-accent">Help Center</a></li>
+              <li><a href="#" className="hover:text-accent">Community</a></li>
+              <li><a href="#" className="hover:text-accent">Writing Guide</a></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-lg font-semibold mb-4" style={{ color: '#64748B' }}>Company</h4>
             <ul className="space-y-3">
-              <li><a href="#" className="text-light-text hover:text-accent" >About</a></li>
-              <li><a href="#" className="text-light-text hover:text-accent" >Careers</a></li>
-              <li><a href="#" className="text-light-text hover:text-accent" >Contact</a></li>
-              <li><a href="#" className="text-light-text hover:text-accent" >Privacy</a></li>
+              <li><a href="#" className=" hover:text-accent" >About</a></li>
+              <li><a href="#" className=" hover:text-accent" >Careers</a></li>
+              <li><a href="#" className=" hover:text-accent" >Contact</a></li>
+              <li><a href="#" className=" hover:text-accent" >Privacy</a></li>
             </ul>
           </div>
         </div>

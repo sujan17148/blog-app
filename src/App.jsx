@@ -31,10 +31,10 @@ function App(){
     })
     .finally(()=>setIsLoading(false))
  },[])
- if(isLoading)return <div className="min-h-screen w-full flex justify-center items-center">
+ if(isLoading)return <div className="min-h-screen bg-primary dark:bg-dark-primary text-secondary w-full flex justify-center items-center">
    <Loader/>
  </div>
-  return <>
+  return <div className="max-w-7xl mx-auto bg-primary dark:bg-dark-primary text-secondary">
     <ToastContainer
          position="top-right"
          autoClose={1000}
@@ -50,7 +50,7 @@ function App(){
    <Header/>
    <Outlet/>
    <Footer/>
-  </>
+  </div>
   
 }
 

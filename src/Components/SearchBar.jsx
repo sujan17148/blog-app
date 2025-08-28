@@ -22,7 +22,7 @@ import { useSelector } from "react-redux";
         setSearchValue("");
       }
     }
-  return <div className=" relative min-w-52 w-full shadow-xl sm:shadow-none bg-primary  flex items-center justify-between p-2 focus-within:border-accent  focus-within:border-2 rounded">
+  return <div className=" relative min-w-52 w-full shadow-xl sm:shadow-none bg-primary dark:bg-dark-primary dark:text-white  flex items-center justify-between p-2 focus-within:border-accent  focus-within:border-2 rounded">
   <input
   ref={ref}
   onKeyDown={(e)=>handleSearch(e)}
@@ -54,7 +54,7 @@ function ShowSuggestion({debouncedValue,setSearchValue,suggestions,setSuggestion
         setSuggestions([])
       }
     },[debouncedValue])
-    return   <div className={`suggestion absolute z-10 top-11 right-1 w-full  bg-light-primary  dark:bg-dark-primary rounded dark:shadow-[6px_6px_12px_#000] shadow-[6px_6px_12px_#c5c5c5]  ${suggestions.length==0 ? "hidden":""}`}>
+    return   <div className={`suggestion absolute z-10 top-11 right-1 w-full  bg-primary  dark:bg-dark-primary rounded dark:shadow-[6px_6px_12px_#000] shadow-[6px_6px_12px_#c5c5c5]  ${suggestions.length==0 ? "hidden":""}`}>
            {suggestions?.slice(0,5).map(post=>(<Link  onClick={()=>{
             setSuggestions([])
             setSearchValue("")

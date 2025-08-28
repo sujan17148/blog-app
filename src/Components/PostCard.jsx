@@ -2,21 +2,21 @@ import databaseService from "../appwrite/databaseService";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MdModeEditOutline } from "react-icons/md";
+import { FaEye,FaRegUser,FaRegCalendar,FaHeart } from "react-icons/fa";
 import Delete from "./DeletePost";
 import Likes from "./Likes";
 import { updatePost } from "../store/postSlice";
-import parse from "html-react-parser";
 export default function PostCard({
   $id,
   title,
   content,
-  image,
   userId,
   author,
   date,
   status,
   tags,
   isFeatured,
+  likes,
   views,
 }) {
   const dispatch = useDispatch();
@@ -25,13 +25,13 @@ export default function PostCard({
       const payLoad = {
         title,
         content,
-        image,
         author,
         tags,
         isFeatured,
         userId,
         date,
         status,
+        likes,
         views: views + 1,
       };
       const updatedFileResponse = await databaseService.editPost($id, payLoad);
@@ -44,34 +44,42 @@ export default function PostCard({
   }
   return (
     <Link onClick={increaseViews} to={`/article/${$id}`}>
-      <div className="postcard relative group bg-white  dark:text-light-text dark:bg-slate-900  min-w-[280px] max-w-86 mx-auto  w-full aspect-[14/16] rounded-xl hover:scale-105 transition duration-300 ease-linear shadow-[6px_6px_12px_#c5c5c5] dark:shadow-[6px_6px_12px_#000]">
-        <EditOptions userId={userId} id={$id} imageId={image} />
-        <img
-          src={databaseService.getFileView(image)}
-          alt="title"
-          className="h-[62%] w-full rounded-t-xl"
-        />
-        <div className="details p-3 h-[38%] flex flex-col  justify-between ">
+      <div className="postcard relative group bg-white text-secondary dark:bg-dark-primary dark:text-white w-full rounded-xl hover:scale-101 transition duration-300 ease-linear border border-slate-200 dark:border-slate-700">
+        <EditOptions userId={userId} id={$id}/>
+        <div className="details p-3  flex flex-col  justify-between ">
           <h1 className="title font-bold capitalize text-xl line-clamp-1">
             {title}
           </h1>
-          <div className="content line-clamp-2 text-base text-gray-600 leading-5">
-            {parse(content)}
+          <div className="content line-clamp-2 text-sm text-secondary leading-snug w-[calc(100%-25px)]">
+            {content}
           </div>
-          <div className="bottom-detalils flex items-center justify-between">
-            <div>
-              <p className="author text-base capitalize -mb-1">Posted by:{author}</p>
-              <p className="date">Date: {date.split("T")[0]}</p>
-            </div>
-          <Likes $id={$id} />
+          <div className="details flex gap-2.5 mt-1 text-sm text-secondary">
+          <div className="flex items-center gap-1">
+            <FaRegUser  />
+            <span>{author}</span>
           </div>
+    
+          <div className="flex items-center gap-1">
+            <FaRegCalendar />
+            <span>{date.split("T")[0]}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <FaEye/>
+            <span>Views {views}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <FaHeart />
+            <span>Likes {likes}</span>
+          </div>
+          </div>
+          <div className="h-10 w-10 absolute right-2 top-1/2 -translate-y-1/2"><Likes $id={$id} /></div>
         </div>
       </div>
     </Link>
   );
 }
 
-export function EditOptions({ userId, id, imageId }) {
+export function EditOptions({ userId, id}) {
   const navigate = useNavigate();
   const currentUser = useSelector((state) => state.auth.userData);
   const isAuthor = currentUser?.$id == userId || null;
@@ -82,12 +90,12 @@ export function EditOptions({ userId, id, imageId }) {
   }
   return (
     isAuthor && (
-      <div className="absolute top-2 right-2 w-fit group-hover:flex items-center hidden">
+      <div className="absolute right-0 w-fit group-hover:flex items-center hidden">
         <MdModeEditOutline
           onClick={(e) => goToEditPage(e)}
-          className="h-10 w-10 p-2 rounded-full hover:bg-accent hover:text-white text-sky-800"
+          className="h-8 w-8 p-1 rounded-full hover:bg-accent hover:text-white text-sky-800"
         />
-        <Delete id={id} imageId={imageId} />
+        <Delete id={id}/>
       </div>
     )
   );

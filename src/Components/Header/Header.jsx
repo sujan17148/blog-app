@@ -10,7 +10,7 @@ export default function Header() {
   const authStatus = useSelector((state) => state.auth.status);
   const currentUser=useSelector(state=>state.auth.userData)
   return (
-    <div className="h-[70px]  bg-light-primary shadow-xl dark:bg-dark-primary text-black dark:text-white p-5 md:px-10 flex items-cente justify-between">
+    <div className="h-[70px]  p-5 md:px-10 flex items-cente justify-between">
       <div className="top-left flex items-center gap-20">
       <Link to="/" className="font-bold text-2xl md:text2xl text-accent">
         BlogSpace
@@ -70,13 +70,13 @@ export default function Header() {
           <div>
             <Link
               to="/login"
-              className="dark:text-light-primary font-medium text-dark-primary  px-3 py-1.5 rounded whitespace-nowrap"
+              className="font-medium px-3 py-1.5 rounded whitespace-nowrap"
             >
               Login
             </Link>
             <Link
               to="/signup"
-              className="bg-accent hover:bg-dark-accent text-white px-3 py-2 font-medium whitespace-nowrap rounded"
+              className="bg-accent hover:bg-accent text-white px-3 py-2 font-medium whitespace-nowrap rounded"
             >
               Sign Up
             </Link>
@@ -103,7 +103,7 @@ function MobileNavbar({authStatus,currentUser}) {
       />
       <div 
         
-        className={`mobile-menu p-5 absolute  z-10 -top-5.75 -right-5 bg-light-primary  dark:bg-dark-primary w-screen min-h-screen transition duration-300 ease-linear ${
+        className={`mobile-menu p-5 absolute  z-10 -top-5.75 -right-5 bg-primary  dark:bg-dark-primary w-screen min-h-screen transition duration-300 ease-linear ${
           isMobileMenuVisible ? "translate-x-full" : "translate-x-0"
         }`}
       >

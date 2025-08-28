@@ -7,7 +7,6 @@ import { login, logOut } from "../store/authSlice";
 import { Link } from "react-router-dom";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import userDataService from "../appwrite/userDataService"
 import {mutateLikedPost} from "../store/userDataSlice"
 export default function Signup() {
@@ -51,7 +50,7 @@ export default function Signup() {
      }
   }
   return (
-    <div className="min-h-[100vh] flex justify-center items-center bg-white dark:bg-slate-900 px-4">
+    <div className="min-h-[100vh] flex justify-center items-center dark:bg-neutral-800 bg-primary px-4">
     <form
       onSubmit={handleSubmit(signUp)}
       className="bg-white dark:bg-dark-primary w-full max-w-md p-8 rounded-lg shadow-lg flex flex-col gap-6"

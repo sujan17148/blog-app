@@ -7,53 +7,26 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { addPost, updatePost } from "../store/postSlice";
 import { v4 as uuidv4 } from "uuid";
-import  ContentEditor  from "./ContentEditor";
 export default function PostForm({ label, buttonlabel, initialData = null }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.userData);
-  const [previewImage, setPreviewImage] = useState(null);
   const {
     register,
     handleSubmit,
     reset,
-    control,
-    watch,
     formState: { errors, isSubmitting },
   } = useForm();
   useEffect(() => {
     if (!initialData) return;
     reset(initialData);
-    setPreviewImage(databaseService.getFileView(initialData.image));
   }, [initialData]);
-  const image = watch("image");
-  useEffect(() => {
-    if (image instanceof FileList && image.length > 0) {
-      const file = image[0];
-      const fileURL = URL.createObjectURL(file);
-      setPreviewImage(fileURL);
-      return () => URL.revokeObjectURL(fileURL);
-    }
-  }, [image]);
   async function submit(data) {
     try {
-      const image = data.image[0] || initialData?.image;
-      const responseFile = await databaseService.uploadFile(image);
-      if (!responseFile) throw new Error("Error uploading image");
-      const fileId = responseFile.$id;
-      if (initialData) {
-        const deleteFileResponse = await databaseService.deleteFile(
-          initialData.image
-        );
-        if (!deleteFileResponse)
-          throw new Error("error deleting previous image");
-        const payload = {
-          ...data,
-          image: fileId,
-        };
+      if(initialData){
         const updatePostResponse = await databaseService.editPost(
           initialData.$id,
-          payload
+          data
         );
         if (!updatePostResponse) throw new Error("error updating post");
         dispatch(updatePost(updatePostResponse));
@@ -62,11 +35,11 @@ export default function PostForm({ label, buttonlabel, initialData = null }) {
           navigate(`/article/${updatePostResponse.$id}`);
           reset();
         }, 1500);
-      } else {
+      }
+      else {
         const payload = {
           ...data,
           id: uuidv4(),
-          image: fileId,
           userId: currentUser.$id,
           date: new Date().toLocaleDateString(),
           author: currentUser.name,
@@ -81,14 +54,15 @@ export default function PostForm({ label, buttonlabel, initialData = null }) {
           reset();
         }, 1500);
       }
-    } catch (error) {
+      } 
+     catch (error) {
       toast.error(error.message || "OOPs something went wrong");
     }
   }
 
   return (
-    <div className="min-h-[calc(100dvh-140px)] flex justify-center items-center pt-10 p-5 md:px-10 dark:bg-slate-900">
-      <div className="create-blog-form w-full max-w-[800px] relative min-h-[500px] p-5 rounded-2xl  shadow-[6px_6px_12px_#c5c5c5] dark:shadow-[6px_6px_12px_#000]">
+    <div className="min-h-[calc(100dvh-140px)] flex justify-center items-center pt-10 p-5 md:px-10 dark:bg-dark-primary">
+      <div className="create-blog-form w-full max-w-[800px] relative min-h-[500px] p-5 rounded-2xl dark:bg-neutral-800 bg-white">
         <h1 className="mb-3 font-bold text-2xl dark:text-white">{label}</h1>
         <form action="" onSubmit={handleSubmit(submit)}>
           <Input
@@ -98,57 +72,39 @@ export default function PostForm({ label, buttonlabel, initialData = null }) {
             inputError={errors?.title?.message}
             {...register("title", { required: "Title is required" })}
           />
-          <div className="file relative dark:text-light-text">
-            {previewImage && (
-              <img src={previewImage} alt="preview" className="w-1/2 my-3" />
-            )}
-            <input
-              type="file"
-              label="Featured Image"
-              accept="image/*"
-              {...register("image", {
-                required: "Featured Image is required",
-              })}
-              className="my-3"
-            />
-            {errors?.image && (
-              <p className=" absolute mb-4 -bottom-5 left-0 text-sm text-red-600">
-                *{errors?.image?.message}
-              </p>
-            )}
-          </div>
           <Input
             label="Tags"
             placeholder="Tags (comma separated)"
             inputError={errors?.tags?.message}
             {...register("tags", { required: "Atleast one tag is required" })}
           />
-          <div className="my-7 dark:text-light-text">
-            <label htmlFor="select" className="dark:text-white font-semibold inline-block mb-2">Select a status</label>
+          <div className="my-7 dark:text-white">
+            <label htmlFor="select" className="font-semibold inline-block mb-2">Select a status</label>
             <select
               {...register("status")}
-              className="inline-block w-full outline-none appearance-none border dark:border-slate-700 border-accent rounded p-2"
+              className="inline-block w-full outline-none appearance-none border  border-accent rounded p-2"
             >
               <option value="published">Published</option>
               <option value="draft">Draft</option>
             </select>
           </div>
-
-          <div className=" relative mt-4 ">
-          <Controller
-          name="content"
-          control={control}
-          rules={{ required: 'Content is required' }}
-          render={({ field: { onChange, value } }) => (
-            <ContentEditor value={value} onChange={onChange} />
-          )}
-        />
-            {errors?.content && (
-              <p className=" absolute -bottom-5 left-0 text-sm text-red-600">
-                *{errors?.content?.message}
-              </p>
-            )}
-          </div>
+          <div className="group content-area dark:text-white">
+                <label className="block text-sm font-semibold mb-2">
+                  Content
+                </label>
+                <textarea
+                  placeholder="Write your markdown content here..."
+                  rows={16}
+                  className="w-full  border border-accent rounded-2xl px-6 py-4 text-base outline-none"
+                  {...register("content", { required: "Content is required" })}
+                />
+                {errors?.content && (
+                  <p className="mt-2 text-sm text-red-500 flex items-center">
+                    <span className="mr-1">⚠️</span>
+                    {errors.content.message}
+                  </p>
+                )}
+              </div>
           <button
             type="submit"
             disabled={isSubmitting}

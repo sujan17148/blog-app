@@ -1,17 +1,32 @@
 @import "tailwindcss";
-
-
 @custom-variant dark (&:where(.dark, .dark *));
 @theme{
-    --color-light-primary:#fff;
-    --color-light-text:#64748B;
+    --color-primary:var(--color-neutral-100);
+    --color-secondary:var(--color-neutral-500);
     --color-accent:#6B26D9;
 
-
-    --color-dark-accent:#fb923c;
-    --color-dark-primary:#020817;
-    --color-dark-text:#94A3B8;
+    --color-dark-primary:var(--color-neutral-900);
 }
 html,body{
     overflow-x:hidden ;
+}
+
+.article-details .markdown-body{
+    @apply bg-primary dark:bg-dark-primary text-secondary;
+}
+.article-details .markdown-body pre{
+    @apply  dark:bg-secondary/30 text-white;
+}
+.article-details .markdown-body h1,
+.article-details .markdown-body h2,
+.article-details .markdown-body h3,
+.article-details .markdown-body h4{
+    @apply text-black dark:text-white;
+}
+.article-details .markdown-body table{
+    @apply  text-white font-light rounded;
+    
+    th{
+        @apply  bg-secondary/30;
+    }
 }
