@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   allPosts: [],
+  allPostStats:[],
 }
 const postSlice = createSlice({
   name: "post",
@@ -20,10 +21,19 @@ const postSlice = createSlice({
     },
     removePost: (state, action) =>{
       state.allPosts = state.allPosts.filter((post) => post.$id !== action.payload)
-    }
+    },
+    mutatePostStats:(state,action)=>{
+      state.allPostStats=action.payload
+     },
+     toggleLikes:(state,action)=>{
+       state.allPostStats=state.allPostStats.map(postStat=>postStat.$id==action.payload.$id ? {...postStat, ...action.payload} : postStat)
+     },
+     increaseViewsLocally:(state,action)=>{
+      state.allPostStats=state.allPostStats.map(postStat=>postStat.$id==action.payload.$id ?{...postStat, ...action.payload} : postStat)
+     }
   },
 });
 
-export const { mutatePost, addPost, updatePost, removePost} =
+export const { mutatePost, addPost, updatePost, removePost,mutatePostStats,toggleLikes,increaseViewsLocally} =
   postSlice.actions;
 export default postSlice.reducer;

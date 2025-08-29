@@ -3,14 +3,14 @@ import databaseService from "../appwrite/databaseService";
 import { FaRegHeart,FaHeart} from "react-icons/fa";
 import {addToLikedPost,removeFromLikedPost} from "../store/userDataSlice"
 import userDataService from "../appwrite/userDataService"
-import { updatePost } from "../store/postSlice";
+import {toggleLikes } from "../store/postSlice";
 import { toast } from "react-toastify";
 export default function Likes({ $id, label = "" }) {
-  const allPosts = useSelector((state) => state.post.allPosts);
-  const postData = allPosts?.find((post) => post.$id === $id);
+  const {allPostStats} = useSelector((state) => state.post);
+  const postData = allPostStats?.find((post) => post.$id === $id);
   const {userData:currentUser,status}=useSelector(state=>state.auth)
   const likedPosts=useSelector(state=>state.userData.likedPosts)
-  const isLiked=likedPosts.includes(postData.$id);
+  const isLiked=likedPosts?.includes(postData?.$id);
   const dispatch = useDispatch();
   async function increaseLikes(e) {
     e.preventDefault()
@@ -20,15 +20,15 @@ export default function Likes({ $id, label = "" }) {
         return;
       }
     try {
-      const payLoad = {
-        ...postData,
-        likes: postData.likes + 1,
-      };
-      const updatedFileResponse = await databaseService.editPost($id, payLoad);
+      const payLoad={
+        $id,
+        likes:postData.likes+1
+      }
+      const updatedFileResponse = await databaseService.toggleLikes(payLoad);
       if (updatedFileResponse) {
         await userDataService.updateUser({userId:currentUser.$id,likedPost:[...likedPosts,$id]})
+        dispatch(toggleLikes(payLoad))
         dispatch(addToLikedPost(updatedFileResponse.$id))
-        dispatch(updatePost(updatedFileResponse));
       }
     } catch (error) {
       console.log(error.message, "likes increase error");
@@ -39,16 +39,16 @@ export default function Likes({ $id, label = "" }) {
     e.preventDefault()
     e.stopPropagation()
     try {
-      const payLoad = {
-        ...postData,
-        likes: postData.likes - 1,
-      };
-      const updatedFileResponse = await databaseService.editPost($id, payLoad);
+      const payLoad={
+        $id,
+        likes:postData.likes-1
+      }
+      const updatedFileResponse = await databaseService.toggleLikes(payLoad);
       if (updatedFileResponse) {
         const updatedLikedPosts = likedPosts.filter(id => id !== $id);
         await  userDataService.updateUser({userId:currentUser.$id,likedPost:updatedLikedPosts})
+        dispatch(toggleLikes(payLoad))
         dispatch(removeFromLikedPost(updatedFileResponse.$id))
-        dispatch(updatePost(updatedFileResponse));
       }
     } catch (error) {
       console.log(error.message, "likes decrease error");

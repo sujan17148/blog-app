@@ -5,13 +5,13 @@ import { useDispatch } from "react-redux";
 import { removePost } from "../store/postSlice";
 export default function Delete({id}){
   const dispatch=useDispatch()
-
          async function handleDeletePost(e){
               e.preventDefault()
               e.stopPropagation()
             try {
                 const deletePostResponse=await databaseService.deletePost(id)
             if(!deletePostResponse) throw new Error("Error deleting Post")
+                await databaseService.deletePostStats(id)
               dispatch(removePost(id))
                 toast.success("Post deleted successfully")
             } catch (error) {

@@ -1,10 +1,18 @@
-export function getTopViewedPosts(postData){
-   return postData.sort((a,b)=>b.views-a.views).slice(0,5).map(post=>({
-    id:post.$id,
-    title:post.title,
-    views:post.views
-   }))
+export function getTopViewedPosts({ userPosts, userPostStats }) {
+  return userPostStats
+    .sort((a, b) => b.views - a.views)
+    .slice(0, 5)
+    .map(postStat => {
+      const matchedPost = userPosts.find(p => p.$id === postStat.$id);
+
+      return {
+        id: postStat.$id,
+        title: matchedPost ? matchedPost.title : postStat.title, // fallback
+        views: postStat.views,
+      };
+    });
 }
+
 
 export function getPostStatusPie(userPosts){
   if(userPosts.length<3) return []

@@ -1,6 +1,6 @@
 import { useForm, Controller } from "react-hook-form";
 import Input from "../Components/Input";
-import { useEffect, useState } from "react";
+import { useEffect,} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import databaseService from "../appwrite/databaseService";
 import { toast } from "react-toastify";
@@ -20,7 +20,7 @@ export default function PostForm({ label, buttonlabel, initialData = null }) {
   useEffect(() => {
     if (!initialData) return;
     reset(initialData);
-  }, [initialData]);
+  }, [initialData,reset]);
   async function submit(data) {
     try {
       if(initialData){
@@ -45,8 +45,8 @@ export default function PostForm({ label, buttonlabel, initialData = null }) {
           author: currentUser.name,
         };
         const createPostResponse = await databaseService.createPost(payload);
-        console.log(createPostResponse);
         if (!createPostResponse) throw new Error("Error creating Post");
+        await databaseService.createPostStats({id:createPostResponse.$id})
         dispatch(addPost(createPostResponse));
         toast.success("Posted Successfully");
         setTimeout(() => {

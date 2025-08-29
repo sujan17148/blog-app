@@ -10,13 +10,15 @@ import "github-markdown-css";
 
 export default function ArticleDetails(){
   let {id}=useParams()
-  const allPosts=useSelector(state=>state.post.allPosts)
+  const {allPosts,allPostStats}=useSelector(state=>state.post)
   const postData=allPosts.find(post=>post.$id===id)
+  const postDataStat=allPostStats.find(postStat=>postStat.$id===id)
+
   useEffect(()=>{
 window.scrollTo(0,0)
   },[])
   return <>
-   {postData &&  <div className="min-h-screen article-details max-w-7xl mx-auto ">
+   {postData &&  postDataStat && <div className="min-h-screen article-details max-w-7xl mx-auto ">
       <div className="details py-10 p-3">
           <span className="bg-purple-600 inline-block  text-white px-3 py-1 rounded-full text-sm capitalize">
             {postData.status}
@@ -36,11 +38,11 @@ window.scrollTo(0,0)
           </div>
           <div className="flex items-center gap-1">
             <FaEye className="w-5 h-5" />
-            <span>Views {postData.views}</span>
+            <span>Views {postDataStat.views}</span>
           </div>
           <div className="flex items-center gap-1">
             <FaHeart className="w-5 h-5" />
-            <span>Likes {postData.likes}</span>
+            <span>Likes {postDataStat.likes}</span>
           </div>
         </div>
         <div className="tags flex gap-2 my-4">

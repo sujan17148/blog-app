@@ -28,7 +28,7 @@ export const router = createBrowserRouter(
           <Route path="search" element={<Search/>} />
           <Route path="article/:id" element={<ArticleDetails/>} />
           <Route path="about" element={<About />} />
-      <Route element={<ProtectedRoutes/>}>
+          <Route element={<ProtectedRoutes/>}>
           <Route path="user/:currentUser" element={<UserProfile />} />
           <Route path="edit/article/:id" element={<EditArticle/>} />
           <Route path="create" element={<CreateArticle />} />

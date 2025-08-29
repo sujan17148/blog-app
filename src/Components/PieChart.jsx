@@ -1,7 +1,6 @@
 import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
 
   export default function PostPieChart({data}) {
-    console.log(data)
     return data.length<2? <div className="h-full flex flex-col items-center justify-center text-center p-4">
     <span className="text-3xl mb-2">📉</span>
     <p className="text-lg font-medium">

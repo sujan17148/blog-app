@@ -2,10 +2,10 @@ import authService from "./appwrite/auth";
 import databaseService from "./appwrite/databaseService.js"
 import userDataService from "./appwrite/userDataService.js"
 import { login, logOut } from "./store/authSlice";
-import { mutatePost } from "./store/postSlice"
+import { mutatePost, mutatePostStats } from "./store/postSlice"
 import { mutateLikedPost } from "./store/userDataSlice.js";
 import { useState,useEffect } from "react";
-import { useDispatch,} from "react-redux";
+import { useDispatch, useSelector,} from "react-redux";
 import Loader from "./Components/Loader"
 
 import { Outlet } from "react-router-dom"
@@ -19,7 +19,9 @@ function App(){
   useEffect(()=>{
     databaseService
     .getAllPost()
-    .then((posts) => dispatch(mutatePost(posts.documents)))
+    .then((posts) => {dispatch(mutatePost(posts.documents))
+    })
+    databaseService.getAllPostStats().then((postStats=>dispatch(mutatePostStats(postStats.documents))))
     authService?.getCurrentUser().then((user)=>{
      if(user){
      userDataService.getUser(user.$id).then(userData=>dispatch(mutateLikedPost(userData?.likedPost || [])))

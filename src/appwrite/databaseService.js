@@ -1,5 +1,6 @@
 import config from "../conf/conf";
 import { Client,ID,Databases,Storage,Permission,Role} from "appwrite";
+import authService from "./auth"
 
 export class Service{
 client=new Client()
@@ -14,13 +15,11 @@ constructor() {
         this.bucket=new Storage(this.client)
   }
       //post related services
-  async createPost({title,content,tags,status,userId,date,author,id,isFeatured,views,likes}){
+  async createPost({title,content,tags,status,userId,date,author,id,isFeatured}){
       try{
-        return await this.databases.createDocument(config.databaseId,config.articleCollectionId,id,{title,content,status,userId,tags,date,author,isFeatured,views,likes},[
+        return await this.databases.createDocument(config.databaseId,config.articleCollectionId,id,{title,content,status,userId,tags,date,author,isFeatured},[
           Permission.read(Role.any()),
-          Permission.create(Role.user(userId)),
           Permission.read(Role.user(userId)),
-          Permission.write(Role.user(userId)),
           Permission.update(Role.user(userId)),
           Permission.delete(Role.user(userId)),
         ])
@@ -44,9 +43,11 @@ constructor() {
         return false
     }
   }
-  async editPost(postId,{title,content,status,tags,userId,date,author,isFeatured,views,likes}){
+  async editPost(postId,{title,content,status,tags,userId,date,author,isFeatured}){
         try{
-            return await this.databases.updateDocument(config.databaseId,config.articleCollectionId,postId,{title,content,status,tags,userId,date,author,isFeatured,views,likes})
+          const currentUser = await authService.getCurrentUser();
+          if(currentUser.$id!==userId) throw new Error("Unauthorized: Only the author can edit this post")
+            return await this.databases.updateDocument(config.databaseId,config.articleCollectionId,postId,{title,content,status,tags,userId,date,author,isFeatured})
           }catch(error){
             console.log("appwrite database updateDocument error",error)
           }
@@ -59,6 +60,50 @@ constructor() {
     } catch (error) {
         console.log("appwrite database deletedocument error",error)
         return false
+    }
+  }
+
+  //post stats related services
+  async createPostStats({id,views=0,likes=0}){
+    try{
+      return await this.databases.createDocument(config.databaseId,config.articleStatsCollectionId,id,{views,likes},[
+        Permission.read(Role.any()),
+        Permission.update(Role.any()),
+        
+      ])
+    }catch(error){
+      console.log("appwrite database createDocument error",error)
+    }
+  }
+  async getAllPostStats(){
+    try {
+      return this.databases.listDocuments(config.databaseId,config.articleStatsCollectionId)
+  } catch (error) {
+      console.log("appwrite database getAllDocument error",error)
+      return false
+  }
+  }
+  async deletePostStats(postId){
+    try {
+       this.databases.deleteDocument(config.databaseId,config.articleStatsCollectionId,postId)
+       return true
+    } catch (error) {
+        console.log("appwrite database deletedocument error",error)
+        return false
+    }
+  }
+  async toggleLikes({$id,likes}){
+    try{
+      return await this.databases.updateDocument(config.databaseId,config.articleStatsCollectionId,$id,{likes})
+    }catch(error){
+      console.log("appwrite database updateDocument error",error)
+    }
+  }
+  async increaseViews({$id,views}){
+    try{
+      return await this.databases.updateDocument(config.databaseId,config.articleStatsCollectionId,$id,{views})
+    }catch(error){
+      console.log("appwrite database updateDocument error",error)
     }
   }
 
