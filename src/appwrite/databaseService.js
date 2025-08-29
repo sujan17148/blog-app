@@ -18,6 +18,11 @@ constructor() {
       try{
         return await this.databases.createDocument(config.databaseId,config.articleCollectionId,id,{title,content,status,userId,tags,date,author,isFeatured,views,likes},[
           Permission.read(Role.any()),
+          Permission.create(Role.user(userId)),
+          Permission.read(Role.user(userId)),
+          Permission.write(Role.user(userId)),
+          Permission.update(Role.user(userId)),
+          Permission.delete(Role.user(userId)),
         ])
       }catch(error){
         console.log("appwrite database createDocument error",error)
@@ -73,7 +78,7 @@ constructor() {
         await this.bucket.deleteFile(config.bucketId,fileId)
         return true
     } catch (error) {
-        console.log("appwrite file delete error")
+        console.log("appwrite file delete error",error.message)
         return false
     }
   }
@@ -82,7 +87,7 @@ constructor() {
     try {
         return  this.bucket.getFileView(config.bucketId,fileId)
     } catch (error) {
-        console.log("appwrite file preview error")
+        console.log("appwrite file preview error",error.message)
     }
   }
 }

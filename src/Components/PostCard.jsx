@@ -45,7 +45,6 @@ export default function PostCard({
   return (
     <Link onClick={increaseViews} to={`/article/${$id}`}>
       <div className="postcard relative group bg-white text-secondary dark:bg-dark-primary dark:text-white w-full rounded-xl hover:scale-101 transition duration-300 ease-linear border border-slate-200 dark:border-slate-700">
-        <EditOptions userId={userId} id={$id}/>
         <div className="details p-3  flex flex-col  justify-between ">
           <h1 className="title font-bold capitalize text-xl line-clamp-1">
             {title}
@@ -79,24 +78,3 @@ export default function PostCard({
   );
 }
 
-export function EditOptions({ userId, id}) {
-  const navigate = useNavigate();
-  const currentUser = useSelector((state) => state.auth.userData);
-  const isAuthor = currentUser?.$id == userId || null;
-  function goToEditPage(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    navigate(`/edit/article/${id}`);
-  }
-  return (
-    isAuthor && (
-      <div className="absolute right-0 w-fit group-hover:flex items-center hidden">
-        <MdModeEditOutline
-          onClick={(e) => goToEditPage(e)}
-          className="h-8 w-8 p-1 rounded-full hover:bg-accent hover:text-white text-sky-800"
-        />
-        <Delete id={id}/>
-      </div>
-    )
-  );
-}
