@@ -2,7 +2,7 @@ import { MdDelete } from "react-icons/md";
 import databaseService from "../appwrite/databaseService";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { removePost } from "../store/postSlice";
+import { removePost, removePoststat } from "../store/postSlice";
 export default function Delete({id}){
   const dispatch=useDispatch()
          async function handleDeletePost(e){
@@ -12,7 +12,9 @@ export default function Delete({id}){
                 const deletePostResponse=await databaseService.deletePost(id)
             if(!deletePostResponse) throw new Error("Error deleting Post")
                 await databaseService.deletePostStats(id)
+              await databaseService.deletePostStats(id)
               dispatch(removePost(id))
+              dispatch(removePoststat(id))
                 toast.success("Post deleted successfully")
             } catch (error) {
               console.log(error)

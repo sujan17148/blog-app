@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import databaseService from "../appwrite/databaseService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { addPost, updatePost } from "../store/postSlice";
+import { addNewPostStat, addPost, updatePost } from "../store/postSlice";
 import { v4 as uuidv4 } from "uuid";
 export default function PostForm({ label, buttonlabel, initialData = null }) {
   const navigate = useNavigate();
@@ -46,8 +46,9 @@ export default function PostForm({ label, buttonlabel, initialData = null }) {
         };
         const createPostResponse = await databaseService.createPost(payload);
         if (!createPostResponse) throw new Error("Error creating Post");
-        await databaseService.createPostStats({id:createPostResponse.$id})
+        await databaseService.createPostStats({id:createPostResponse.$id,userId:currentUser.$id})
         dispatch(addPost(createPostResponse));
+        dispatch(addNewPostStat({views:0,likes:0,$id:createPostResponse.$id}))
         toast.success("Posted Successfully");
         setTimeout(() => {
           navigate(`/article/${createPostResponse.$id}`);

@@ -18,8 +18,6 @@ constructor() {
   async createPost({title,content,tags,status,userId,date,author,id,isFeatured}){
       try{
         return await this.databases.createDocument(config.databaseId,config.articleCollectionId,id,{title,content,status,userId,tags,date,author,isFeatured},[
-          Permission.read(Role.any()),
-          Permission.read(Role.user(userId)),
           Permission.update(Role.user(userId)),
           Permission.delete(Role.user(userId)),
         ])
@@ -45,8 +43,6 @@ constructor() {
   }
   async editPost(postId,{title,content,status,tags,userId,date,author,isFeatured}){
         try{
-          const currentUser = await authService.getCurrentUser();
-          if(currentUser.$id!==userId) throw new Error("Unauthorized: Only the author can edit this post")
             return await this.databases.updateDocument(config.databaseId,config.articleCollectionId,postId,{title,content,status,tags,userId,date,author,isFeatured})
           }catch(error){
             console.log("appwrite database updateDocument error",error)
@@ -64,12 +60,11 @@ constructor() {
   }
 
   //post stats related services
-  async createPostStats({id,views=0,likes=0}){
+  async createPostStats({id,views=0,likes=0,userId}){
     try{
       return await this.databases.createDocument(config.databaseId,config.articleStatsCollectionId,id,{views,likes},[
-        Permission.read(Role.any()),
-        Permission.update(Role.any()),
-        
+        Permission.update(Role.user(userId)),
+        Permission.delete(Role.user(userId)),
       ])
     }catch(error){
       console.log("appwrite database createDocument error",error)
