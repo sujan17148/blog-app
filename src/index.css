@@ -10,7 +10,14 @@
 html,body{
     overflow-x:hidden ;
 }
-
+.hidescrollbar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+  }
+  
+  .hidescrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }
 .article-details .markdown-body{
     @apply bg-primary dark:bg-dark-primary text-secondary;
 }

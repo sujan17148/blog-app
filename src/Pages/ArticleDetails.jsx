@@ -19,7 +19,7 @@ window.scrollTo(0,0)
   },[])
   return <>
    {postData &&  postDataStat && <div className="min-h-screen article-details max-w-7xl mx-auto ">
-      <div className="details py-10 p-3">
+      <div className="details pt-10 p-3">
           <span className="bg-purple-600 inline-block  text-white px-3 py-1 rounded-full text-sm capitalize">
             {postData.status}
           </span> 
@@ -45,22 +45,6 @@ window.scrollTo(0,0)
             <span>Likes {postDataStat.likes}</span>
           </div>
         </div>
-        <div className="tags flex gap-2 my-4">
-        <div className="flex items-center gap-2">
-          <GoTag className="w-5 h-5 text-slate-500" />
-          <span className="font-medium text-slate-700">Tags</span>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {postData?.tags.split(",").map((tag, index) => (
-            <span 
-              key={index}
-              className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm hover:bg-purple-200 transition-colors cursor-pointer"
-            >
-              #{tag}
-            </span>
-          ))}
-        </div>
-      </div>
       </div>
       <div className="markdown-body p-3">
       <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>

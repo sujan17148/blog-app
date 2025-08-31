@@ -26,12 +26,12 @@ export default function PostCard({
   }
   return (
     <Link onClick={handleIncreaseViews} to={`/article/${$id}`}>
-      <div className="postcard relative group bg-white text-secondary dark:bg-dark-primary dark:text-white w-full rounded-xl hover:scale-101 transition duration-300 ease-linear border border-slate-200 dark:border-slate-700">
+      <div className="postcard relative group bg-white text-secondary py-2 dark:bg-dark-primary dark:text-white w-full rounded-xl hover:scale-101 transition duration-300 ease-linear border border-slate-200 dark:border-slate-700">
         <div className="details p-3  flex flex-col  justify-between ">
           <h1 className="title font-bold capitalize text-xl line-clamp-1">
             {title}
           </h1>
-          <div className="content line-clamp-2 text-sm text-secondary leading-snug w-[calc(100%-25px)]">
+          <div className="content line-clamp-2 my-2 text-sm text-secondary leading-snug w-[calc(100%-25px)]">
             {content}
           </div>
           <div className="details flex gap-2.5 mt-1 text-sm text-secondary">
@@ -46,11 +46,11 @@ export default function PostCard({
           </div>
           <div className="flex items-center gap-1">
             <FaEye/>
-            <span>Views {postData?.views}</span>
+            <span>{postData?.views}</span>
           </div>
           <div className="flex items-center gap-1">
             <FaHeart />
-            <span>Likes {postData?.likes}</span>
+            <span>{postData?.likes}</span>
           </div>
           </div>
           <div className="h-10 w-10 absolute right-2 top-1/2 -translate-y-1/2"><Likes $id={$id} /></div>

@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div className="h-screen w-screen flex justify-center items-center flex-col">
        <Player loop autoPlay src={NotFoundAnimation} className="w-full min-h-[50dvh] animate-pulse"/>
-       <Link to={-1} className="px-5 py-2 rounded dark:text-white font-bold bg-accent">Go Back</Link>
+       <Link to={-1} className="px-5 py-2 rounded  text-white font-bold bg-accent">Go Back</Link>
     </div>
   );
 }

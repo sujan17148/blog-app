@@ -45,9 +45,9 @@ export const router = createBrowserRouter(
  function ProtectedRoutes(){
     const isAuthenticated=useSelector(state=>state.auth.status)
     const navigate =useNavigate()
-    return isAuthenticated ? <Outlet/> :   <div className="min-h-screen flex items-center justify-center dark:bg-slate-900 px-4">
+    return isAuthenticated ? <Outlet/> :   <div className="min-h-screen flex items-center justify-center  px-4">
     <div className="bg-white dark:bg-dark-primary shadow-[6px_6px_12px_#c5c5c5] dark:shadow-[6px_6px_12px_#000] rounded-xl p-8 max-w-md text-center">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">🔒 Access Denied</h2>
+      <h2 className="text-2xl font-bold dark:text-white text-black mb-4">🔒 Access Denied</h2>
       <p className="text-gray-600 mb-6">
         You must be logged in to view this page.
       </p>

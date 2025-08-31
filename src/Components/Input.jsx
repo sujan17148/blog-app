@@ -15,7 +15,7 @@ const Input = forwardRef(function Input(
       <input
         id={id}
         type={type}
-        className={`${className} p-2 w-full outline-none dark:text-white   placeholder:text-light-text border-accent border rounded-md`}
+        className={`${className} p-2 w-full outline-none dark:text-white bg-primary dark:bg-dark-primary   placeholder:text-light-text focus:border-accent focus:border rounded-md`}
         ref={ref}
         {...props}
       />
