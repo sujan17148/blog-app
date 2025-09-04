@@ -70,7 +70,7 @@ export default function Header() {
           <div>
             <Link
               to="/login"
-              className="font-medium px-3 py-1.5 rounded whitespace-nowrap"
+              className="font-medium px-3 py-1.5  text-dark-primary dark:text-white rounded whitespace-nowrap"
             >
               Login
             </Link>
@@ -103,7 +103,7 @@ function MobileNavbar({authStatus,currentUser}) {
       />
       <div 
         
-        className={`mobile-menu p-5 absolute  z-10 -top-5.75 -right-5 bg-primary  dark:bg-dark-primary w-screen min-h-screen transition duration-300 ease-linear ${
+        className={`mobile-menu p-5 fixed inset-0  z-10 bg-primary  dark:bg-dark-primary transition duration-300 ease-linear ${
           isMobileMenuVisible ? "translate-x-full" : "translate-x-0"
         }`}
       >
@@ -157,22 +157,22 @@ function MobileNavbar({authStatus,currentUser}) {
         </li>
       </ul>
           
-        <div  onClick={() => setIsMobileMenuVisible(true)} className="top-right  items-center flex gap-2.5 my-4">
+        <div  onClick={() => setIsMobileMenuVisible(true)} className="top-right  items-center flex gap-3">
         {!authStatus ? (
-          <div>
+          <>
             <Link
               to="/login"
-              className="dark:text-light-primary font-medium text-dark-primary  px-3 py-1.5 rounded whitespace-nowrap"
+              className="font-medium text-dark-primary dark:text-white py-1.5 rounded whitespace-nowrap"
             >
               Login
             </Link>
             <Link
               to="/signup"
-              className="bg-accent hover:bg-dark-accent text-white px-3 py-2 font-medium whitespace-nowrap rounded"
+              className="bg-accent text-white px-3 py-2 font-medium whitespace-nowrap rounded"
             >
               Sign Up
             </Link>
-          </div>
+          </>
         ) : (
           <div className="flex gap-2.5 items-center">
             <Logout/>

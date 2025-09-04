@@ -26,8 +26,7 @@ export default function PostCard({
   }
   return (
     <Link onClick={handleIncreaseViews} to={`/article/${$id}`}>
-      <div className="postcard relative group bg-white text-secondary py-2 dark:bg-dark-primary dark:text-white w-full rounded-xl hover:scale-101 transition duration-300 ease-linear border border-slate-200 dark:border-slate-700">
-        <div className="details p-3  flex flex-col  justify-between ">
+      <div className="postcard relative group bg-white text-secondary p-3 dark:bg-dark-primary dark:text-white w-full rounded-xl hover:scale-101 transition duration-300 ease-linear border border-slate-200 dark:border-slate-700">
           <h1 className="title font-bold capitalize text-xl line-clamp-1">
             {title}
           </h1>
@@ -55,7 +54,6 @@ export default function PostCard({
           </div>
           <div className="h-10 w-10 absolute right-2 top-1/2 -translate-y-1/2"><Likes $id={$id} /></div>
         </div>
-      </div>
     </Link>
   );
 }

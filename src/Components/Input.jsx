@@ -6,7 +6,7 @@ const Input = forwardRef(function Input(
 ) {
   let id = useId();
   return (
-    <div className="w-full relative mb-3">
+    <div className="w-full relative mb-5">
       {label && (
         <label htmlFor={id} className="block mb-1 dark:text-white font-medium text-base">
           {label}

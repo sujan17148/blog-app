@@ -1,6 +1,6 @@
-import { useForm,} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Input from "../Components/Input";
-import { useEffect} from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import databaseService from "../appwrite/databaseService";
 import { toast } from "react-toastify";
@@ -9,9 +9,11 @@ import { FaRegFilePdf } from "react-icons/fa";
 import { RiSendPlaneLine } from "react-icons/ri";
 import { addNewPostStat, addPost, updatePost } from "../store/postSlice";
 import { v4 as uuidv4 } from "uuid";
-export default function PostForm({ label, buttonlabel, initialData = null }) {
+import { convertToMarkdown } from "../utils/convertToMarkdown";
+export default function PostForm({ label,initialData = null }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [clickedAction, setclickedAction] = useState(null);
   const currentUser = useSelector((state) => state.auth.userData);
   const {
     register,
@@ -22,15 +24,17 @@ export default function PostForm({ label, buttonlabel, initialData = null }) {
   useEffect(() => {
     if (!initialData) return;
     reset(initialData);
-  }, [initialData,reset]);
-  async function submit(data,event) {
-    const status=event.nativeEvent.submitter.value || "published"
+  }, [initialData, reset]);
+  async function submit(data, event) {
+    const status = event.nativeEvent.submitter.value || "published";
     //in the form event.target always point to form so for button had to use nativeEvent.submitter
+    setclickedAction(status);
+    const content = await convertToMarkdown(data.content);
     try {
-      if(initialData){
+      if (initialData) {
         const updatePostResponse = await databaseService.editPost(
           initialData.$id,
-          {...data,status}
+          { ...data, status, content }
         );
         if (!updatePostResponse) throw new Error("error updating post");
         dispatch(updatePost(updatePostResponse));
@@ -39,30 +43,34 @@ export default function PostForm({ label, buttonlabel, initialData = null }) {
           navigate(`/article/${updatePostResponse.$id}`);
           reset();
         }, 1500);
-      }
-      else {
+      } else {
         const payload = {
           ...data,
           id: uuidv4(),
+          content,
           status,
           userId: currentUser.$id,
           date: new Date().toLocaleDateString(),
           author: currentUser.name,
         };
-        const createPostResponse = await databaseService.createPost(payload);
-        if (!createPostResponse) throw new Error("Error creating Post");
-        await databaseService.createPostStats({id:createPostResponse.$id,userId:currentUser.$id})
+        const [createPostResponse] = await Promise.all([
+          databaseService.createPost(payload),
+          databaseService.createPostStats({ id: payload.id, userId: currentUser.$id }),
+        ]);
         dispatch(addPost(createPostResponse));
-        dispatch(addNewPostStat({views:0,likes:0,$id:createPostResponse.$id}))
+        dispatch(
+          addNewPostStat({ views: 0, likes: 0, $id: createPostResponse.$id })
+        );
         toast.success("Posted Successfully");
         setTimeout(() => {
           navigate(`/article/${createPostResponse.$id}`);
           reset();
         }, 1500);
       }
-      } 
-     catch (error) {
+    } catch (error) {
       toast.error(error.message || "OOPs something went wrong");
+    } finally {
+      setclickedAction(null);
     }
   }
 
@@ -84,34 +92,50 @@ export default function PostForm({ label, buttonlabel, initialData = null }) {
             inputError={errors?.tags?.message}
             {...register("tags", { required: "Atleast one tag is required" })}
           />
-          <div className="group content-area dark:text-white ">
-                <label className="block text-sm font-semibold mb-2">
-                  Content
-                </label>
-                <textarea
-                  placeholder="Start writing your story here..."
-                  rows={16}
-                  className="w-full bg-primary dark:bg-dark-primary focus:border focus:border-accent rounded-2xl px-6 py-4 text-base outline-none hidescrollbar"
-                  {...register("content", { required: "Content is required" })}
-                />
-                {errors?.content && (
-                  <p className="mt-2 text-sm text-red-500 flex items-center">
-                    <span className="mr-1">⚠️</span>
-                    {errors.content.message}
-                  </p>
-                )}
-              </div>
-             <div className="buttons flex gap-2 mt-5">
-             <button className="dark:bg-white dark:text-black flex gap-2 items-center rounded px-5 py-2 font-medium bg-primary whitespace-nowrap" disabled={isSubmitting} type="submit" value="draft"> <FaRegFilePdf/> Save Draft</button>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            value="published"
-            className="text-white bg-accent flex items-center gap-2 rounded whitespace-nowrap px-5 py-2  font-medium hover:scale-105 active:scale-95 transition duration-300 ease-linear"
-          >
-              <RiSendPlaneLine /> Publish Post
-          </button>
-             </div>
+          <div className="group content-area dark:text-white mt-6">
+            <label className="block text-sm font-semibold mb-2 ">Content</label>
+            <textarea
+              placeholder="Start writing your story here..."
+              rows={16}
+              className="w-full bg-primary dark:bg-dark-primary focus:border focus:border-accent rounded-2xl px-6 py-4 text-base outline-none hidescrollbar"
+              {...register("content", { required: "Content is required" })}
+            />
+            {errors?.content && (
+              <p className="mt-2 text-sm text-red-500 flex items-center">
+                <span className="mr-1">⚠️</span>
+                {errors.content.message}
+              </p>
+            )}
+          </div>
+          <div className="buttons flex justify-end gap-2 mt-2">
+            <button
+              className="dark:bg-white dark:text-black flex gap-2 items-center rounded px-5 py-2 font-medium bg-primary whitespace-nowrap"
+              disabled={isSubmitting}
+              type="submit"
+              value="draft"
+            >
+              {" "}
+              <FaRegFilePdf />{" "}
+              {isSubmitting && clickedAction === "draft"
+                ? "Saving..."
+                : !isSubmitting && clickedAction === "draft"
+                ? "Saved"
+                : "Save Draft"}
+            </button>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              value="published"
+              className="text-white bg-accent flex items-center gap-2 rounded whitespace-nowrap px-5 py-2  font-medium hover:scale-105 active:scale-95 transition duration-300 ease-linear"
+            >
+              <RiSendPlaneLine />{" "}
+              {isSubmitting && clickedAction === "published"
+                ? "Posting..."
+                : !isSubmitting && clickedAction === "published"
+                ? "Posted"
+                : "Publish Post"}
+            </button>
+          </div>
         </form>
       </div>
     </div>

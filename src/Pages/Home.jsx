@@ -25,7 +25,7 @@ function MostViewedPostSection({publishedPosts}){ //.sort mutatus original array
   const mostViewedPosts=publishedPosts?.toSorted((a,b)=>b.views-a.views)
   return <div className="w-full  min-h-[50dvh]  py-20">
     <h1 className="text-2xl md:text-4xl dark:text-white font-semibold  text-center">Most Viewed Posts</h1>
-    <div className="featured-posts flex justify-center gap-4 flex-wrap my-15">
+    <div className="featured-posts flex flex-col gap-4 my-15">
       {mostViewedPosts?.slice(0,3).map(post=> <PostCard key={post.$id} {...post} />)}
     </div>
   </div>

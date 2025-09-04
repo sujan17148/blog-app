@@ -5,7 +5,7 @@
     --color-secondary:var(--color-neutral-500);
     --color-accent:#6B26D9;
 
-    --color-dark-primary:var(--color-neutral-900);
+    --color-dark-primary:#0D1117;
 }
 html,body{
     overflow-x:hidden ;
@@ -22,7 +22,7 @@ html,body{
     @apply bg-primary dark:bg-dark-primary text-secondary;
 }
 .article-details .markdown-body pre{
-    @apply  dark:bg-secondary/30 text-white;
+    @apply  bg-white text-black dark:bg-[#151B23] dark:text-white;
 }
 .article-details .markdown-body h1,
 .article-details .markdown-body h2,
